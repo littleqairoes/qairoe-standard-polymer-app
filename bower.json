@@ -1,0 +1,23 @@
+{
+  "name": "qairoe-standard-polymer-app",
+  "homepage": "https://github.com/littleqairoes/qairoe-standard-polymer-app",
+  "authors": [
+    "Toni-Jan Keith Monserrat <tonijanmonserrat@gmail.com>"
+  ],
+  "description": "This will be the standard build of all Qairoe Projects",
+  "keywords": [
+    "qairoe",
+    "standard",
+    "polymer",
+    "app"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
