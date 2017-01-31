@@ -51,8 +51,99 @@
     <script>
       window.QAIROESTANDARDPOLYMERAPP = window.QAIROESTANDARDPOLYMERAPP || {};
       window.PREFIX = '/';
+      
+      window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex = 2;
+      window.QAIROESTANDARDPOLYMERAPP.LoaderMessages = [
+        'Might be the network...',
+        'If you are using Safari 9, you might need to update it to the latest version...',
+        'If you are using a lower version of Firefox or Chrome, please update it above version 30...',
+        'Nuninuninuninu...',
+        'We haven\'t tested this yet on IE 8... so, give us as a holler if you see this (and you are on IE 10 below)...',
+        'Please wait...',
+        'Why is the network so slow today???'
+      ]
+      window.RavenLoaderMessages = [];
+      
+      
+      window.QAIROESTANDARDPOLYMERAPP.LoaderTimerShort = setTimeout(loadMessage.bind(this, 'Might be the network...'), 6000);
+      window.QAIROESTANDARDPOLYMERAPP.LoaderTimerShorter = setTimeout(loadMessage.bind(this, 'Please wait...'), 14000);
+      window.QAIROESTANDARDPOLYMERAPP.LoaderTimerLong = setTimeout(loadMessage.bind(this, 'Really really slow network here'), 60000);
+      
+      window.QAIROESTANDARDPOLYMERAPP.LoaderTimer = setTimeout(function() {
+        console.log('Really slow network here')
+        RavenLoaderMessages.push('Really slow network here');
+        window.QAIROESTANDARDPOLYMERAPP.LoaderText.innerHTML = 'If you are using Safari 9, you might need to update it to the latest version...';
+        window.slowNetwork = new Date();
+        window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesInterval = setInterval(function() {
+          window.QAIROESTANDARDPOLYMERAPP.LoaderText.innerHTML = window.QAIROESTANDARDPOLYMERAPP.LoaderMessages[window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex];
+          window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex++;
+          if (window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex >= window.QAIROESTANDARDPOLYMERAPP.LoaderMessages.length) {
+            window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex = 0;
+          }
+        }, 7000);
+        sendRavenMessages();
+      }, 20000);
+      
+      function loadMessage (param) {
+        window.QAIROESTANDARDPOLYMERAPP.LoaderText = document.getElementById('loader-text');
+        window.QAIROESTANDARDPOLYMERAPP.LoaderText.innerHTML = param;
+      }
+      
+      function sendRavenMessages() {
+        console.log('raven loaded')
+        while (window.RavenLoaderMessages.length > 0) {
+          if (window.Raven) {
+            var message = window.RavenLoaderMessages.pop();
+            Raven.captureMessage(message);
+          } else {
+            break;
+          }
+        }
+      }
+      
+      window.loadRaven = function() {
+        Raven.config('https://827acc4cd4d04b009157881a6939baac@sentry.io/123192').install();
+        setTimeout(sendRavenMessages, 10);
+      }
 
-
+    </script>
+    
+    <link rel="import" href="/core/qairoe-standard-polymer-app-app-shell.html" async>
+    <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js" async onload="window.loadRaven()"></script>
+  
+    <script>
+      // Setup Polymer options
+      // Based on https://youtu.be/Rd0plknSPYU?t=19m58s
+      // Making Chromsestatus.com a Lightning-fast PWA (Polymer Summit 2016)
+      window.Polymer = {
+        // Use native Shadow DOM (if available)
+        dom: 'shadow',
+        // Delay Polymer startup work until instance-time,
+        lazyRegister: 'max'
+      };
+      // Setup error tracking before anything else runs.
+      window.onerror = function (message, file, lineNumber, columnNumber, error) {
+        // We don't want to trigger any errors inside window.onerror, so wrap in a try/catch.
+        try {
+          // Some browsers don't support error param yet.
+          if (error !== undefined && error !== null) {
+            message = error.stack;
+          }
+          if (window.ga) {
+            ga('send', 'event', 'error', file + ':' + lineNumber, message);
+          }
+          
+          if (window.Raven && error) {
+            Raven.captureException(error);
+            // Raven.showReportDialog();
+          } else {
+            console.log(message)
+          }
+        } catch (e) {
+          console.error(e);
+          // no-op
+        }
+      };
     </script>
   </head>
   <body>
