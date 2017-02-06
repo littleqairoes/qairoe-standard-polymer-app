@@ -1,18 +1,18 @@
 {
-  "version": "beta"
+  "version": "beta",
   "metadata": {
-    "title": "Qairoe Standard Polymer App",
+    "title": "Qairoe Standard Polymer App 3",
     "description": "Description here",
     "type": "website",
     "image": "http://url.of/image.jpg",
-    
+
     "card": "summary_large_image",
     "site": "@QAIROE",
     "creator": "@QAIROE",
-    
-    "theme-color": "#3f51b5",
-    
-    
+
+    "theme-color": "#3f51b5"
+
+
   },
   "splashMessages": [
     "Might be the network...",
@@ -21,6 +21,6 @@
     "Nuninuninuninu...",
     "We haven't tested this yet on IE 8... so, give us as a holler if you see this (and you are on IE 10 below)...",
     "Please wait...",
-    "Why is the network so slow today???"  
+    "Why is the network so slow today???"
   ]
 }

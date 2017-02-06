@@ -19,8 +19,10 @@ const injectMetadata = require('./gulp-tasks/inject-metadata.js');
 gulp.task('watch-all', function(){
   injectSass();
   injectMetadata();
-  watch(['pages/**/*.scss', 'web-components/**/*.scss', 'styles/**/*.scss'], injectSass);
-  watch(['config/**/*.json'], injectMetadata);
+  watch(['pages/**/*.scss', 'web-components/**/*.scss', 'styles/**/*.scss', 'config/**/*.json'], function() {
+    injectSass();
+    injectMetadata();
+  });
 });
 
 gulp.task('inject-metadata', injectMetadata);
