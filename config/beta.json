@@ -5,14 +5,10 @@
     "description": "Description here",
     "type": "website",
     "image": "http://url.of/image.jpg",
-
     "card": "summary_large_image",
     "site": "@QAIROE",
     "creator": "@QAIROE",
-
-    "theme-color": "#3f51b5"
-
-
+    "themeColor": "#3f51b5"
   },
   "splashMessages": [
     "Might be the network...",
