@@ -1,0 +1,152 @@
+scripts/elements.js{
+    PROJECTMADHOUSE.Elements{
+        - create a global variable for a specific element.
+            PROJECTMADHOUSE.Elements.Template   =   id(project-madhouse-app);
+            PROJECTMADHOUSE.Elements.Loader     =   id(showbox)
+        - used by bootstrap.js at lines 109 - 110 for creating a toast that tells, the app works offline.
+        - functions:
+            * init
+                > used by bootstrap.js at line 134 
+                > used by metrics.js at line 262
+            
+    }
+}
+
+scripts/util.js{
+    window.debugLog{
+        - shows the error
+        - redundant with deferred.js from line number (21 - 27)
+        > used by bootstrap.js at line 35
+        > used by bootstrap.js at line 48
+    }
+    
+    PROJECTMADHOUSE.Util{
+        - Create a deferred object, allowing a Promise to be fulfilled at a later time.
+        - functions:
+            * createDeferred (exactly the same code with deferred.js from line number 37 - 49)
+                > used by util.js at line 272
+            * isIOS
+                > used by util.js at line 276
+            * isAndroid
+                > used by util.js at line 277
+            * isSafari
+                > used by util.js at line 278
+            * isIE
+                > used by util.js at line 274
+            * isEdge
+                > used by util.js at line 275
+            * isFF
+                > used by util.js at line 273
+            * isTouchScreen
+                > used by util.js at line 279
+            * getMetaThemeColor
+                > used by util.js at line 280
+            * setMetaThemeColor
+                > used by util.js at line 281
+            * getStaticBaseURL
+            * getURLParameter
+                > used by util.js at line 282
+            * removeSearchParam
+                > used by util.js at line 284
+            * setSearchParam
+                > used by util.js at line 283
+            * reportError
+                > used by util.js at line 288
+            * getEventSender
+                > used by util.js at line 287
+            * getFPIfSupported
+                > used by util.js at line 286
+            * getChromeVersion
+                > used by bootstrap.js at line 93 to check chrome version for es6
+                > used by util.js at line 289
+            * getFirefoxVersion
+                > used by bootstrap.js at line 94 to check firefox version for es6
+                > used by util.js at line 290
+            * extend
+                > used by util.js at line 291
+            * getUserLanguage
+                > used by util.js at line 292
+    }
+}
+
+scripts/deferred.js{
+    window.debugLog{
+        - shows the error
+        - rudundant with utli.js from line number (21 - 27)
+    }
+    
+    PROJECTMADHOUSE.Deferred{
+        - Create a deferred object, allowing a Promise to be fulfilled at a later time.
+        - redundant with util.js from line number (39 - 51)
+        > used by metrics.js at line 97 to create a deferred object when a tracker is initialized and is ready to use.
+    }
+}
+
+scripts/metrics.js{
+    tag: async
+    
+    PROJECTMADHOUSE.Analytics{
+        - Analytics for the I/O Web App.
+        - functions:
+            * Analytics (constructor)
+                > used by util.js at line 187 to track errors.
+                > used by metrics.js at line 364
+            * Analytics.prototype.setTrackerDefaults
+                > used by metrics.js at line 27
+            * Analytics.prototype.initTrackerReadyState
+                > used by metrics.js at line 28
+            * Analytics.prototype.updateTracker
+                > used by metrics.js at line 313
+                > used by metrics.js at line 316
+                > used by metrics.js at line 331
+            * Analytics.prototype.waitForTrackerReady
+                > used by metrics.js at line 152
+                > used by metrics.js at line 171
+                > used by metrics.js at line 203
+                > used by metrics.js at line 222
+                > used by metrics.js at line 244
+            * Analytics.prototype.trackPageView
+                > used by metrics.js at line 31
+            * Analytics.prototype.trackPerf
+                > used by metrics.js at line 263
+                > used by metrics.js at line 303
+            * Analytics.prototype.trackEvent
+                > used by bootstrap.js at line 117
+                > used by bootstrap.js at line 123
+                > used by metrics.js at line 107
+                > used by metrics.js at line 317
+                > used by metrics.js at line 335
+                > used by metrics.js at line 337
+                > used by metrics.js at line 338
+            * Analytics.prototype.trackError
+                > used by bootstrap.js at line 27
+                > used by metrics.js at line 44
+                > used by util.js at line 187
+            * Analytics.prototype.trackSocial
+            * Analytics.prototype.trackPerfEvent
+                > used by metrics.js at line 35
+                > used by metrics.js at line 36
+                > used by metrics.js at line 267
+            * Analytics.prototype.timeStart
+            * Analytics.prototype.timeEnd
+            * Analytics.prototype.trackOnlineStatus
+                > used by metrics.js at line 38
+            * Analytics.prototype.trackServiceWorkerControlled
+                > used by metrics.js at line 39
+            * Analytics.prototype.getServiceWorkerStatus
+                > used by metrics.js at line 329
+            * Analytics.prototype.getNotificationPermission
+    }
+}
+
+scripts/bootstrap.js{
+    tag: async
+    
+    - functions:
+        * logRejectedPromises
+            > used by bootstrap.js at line 42
+        * lazyLoadWCPolyfillsIfNecessary
+            > used by bootstrap.js at line 133
+        * initApp
+            > used by bootstrap.js at line 138
+}
