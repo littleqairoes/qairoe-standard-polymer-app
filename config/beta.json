@@ -1,0 +1,26 @@
+{
+  "version": "beta"
+  "metadata": {
+    "title": "Qairoe Standard Polymer App",
+    "description": "Description here",
+    "type": "website",
+    "image": "http://url.of/image.jpg",
+    
+    "card": "summary_large_image",
+    "site": "@QAIROE",
+    "creator": "@QAIROE",
+    
+    "theme-color": "#3f51b5",
+    
+    
+  },
+  "splashMessages": [
+    "Might be the network...",
+    "If you are using Safari 9, you might need to update it to the latest version...",
+    "If you are using a lower version of Firefox or Chrome, please update it above version 30...",
+    "Nuninuninuninu...",
+    "We haven't tested this yet on IE 8... so, give us as a holler if you see this (and you are on IE 10 below)...",
+    "Please wait...",
+    "Why is the network so slow today???"  
+  ]
+}
