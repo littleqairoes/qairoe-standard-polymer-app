@@ -9,8 +9,24 @@
     <!-- TITLE ENDS -->
 
     <!-- DESCRIPTION START -->
-    <meta name="description" content="Alpha">
+    <meta name="description" content="Description">
     <!-- DESCRIPTION END -->
+
+    <!-- OG META TAGS FOR FACEBOOK START HERE -->
+    <meta property="og:title" content="Qairoe Standard Polymer App" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="http://url.of/image.jpg" />
+    <meta property="og:description" content="Description" />
+    <!-- OG META TAGS FOR FACEBOOK END HERE -->
+
+    <!-- TWITTER TAGS FOR TWITTER START HERE -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@QAIROE">
+    <meta name="twitter:creator" content="@QAIROE">
+    <meta name="twitter:title" content="Qairoe Standard Polymer App">
+    <meta name="twitter:description" content="Description">
+    <meta name="twitter:image" content="http://url.of/image.jpg">
+    <!-- TWITTER TAGS FOR TWITTER END HERE -->
 
     <link rel="icon" href="/images/favicon.ico">
 
@@ -49,100 +65,188 @@
     <!-- =========================================================================================== -->
 
     <script>
-      window.QAIROESAPP = window.QAIROESAPP || {};
-      window.PREFIX = '/';
-      
-      
-      window.QAIROESAPP.SplashMessagesIndex = 0;
-      window.QAIROESAPP.SplashMessages = [
-        'Might be the network...',
-        'If you are using Safari 9, you might need to update it to the latest version...',
-        'If you are using a lower version of Firefox or Chrome, please update it above version 30...',
-        'Nuninuninuninu...',
-        'We haven\'t tested this yet on IE 8... so, give us as a holler if you see this (and you are on IE 10 below)...',
-        'Please wait...',
-        'Why is the network so slow today???'
-      ]
-      window.RavenSplashMessages = [];
-      
-      window.QAIROESAPP.LoaderTimer = setTimeout(function() {
-        console.log('Really slow network here')
-        RavenSplashMessages.push('Really slow network here');
-        window.QAIROESAPP.LoaderText.innerHTML = 'If you are using Safari 9, you might need to update it to the latest version...';
-        window.slowNetwork = new Date();
+      (function(){
+        window.QAIROESAPP = window.QAIROESAPP || {};
+        window.PREFIX = '/';
+
+        /** VERSION START HERE **/
+        window.QAIROESAPP.version = 'beta';
+        /** VERSION END HERE**/
+
+        window.QAIROESAPP.SplashMessagesIndex = 0;
+        window.QAIROESAPP.RavenSplashMessages = [];
+
+        /** SPLASH MESSAGES START HERE **/
+        window.QAIROESAPP.SplashMessages = [
+          'Might be the network...',
+          'If you are using Safari 9, you might need to update it to the latest version...',
+          'If you are using a lower version of Firefox or Chrome, please update it above version 30...',
+          'Nuninuninuninu...',
+          'We haven\'t tested this yet on IE 8... so, give us as a holler if you see this (and you are on IE 10 below)...',
+          'Please wait...',
+          'Why is the network so slow today???'
+        ];
+        /** SPLASH MESSAGES END HERE **/
+
+        // Setup Polymer options
+        // Based on https://youtu.be/Rd0plknSPYU?t=19m58s
+        // Making Chromsestatus.com a Lightning-fast PWA (Polymer Summit 2016)
+        window.Polymer = {
+          dom: 'shadow', // Use native Shadow DOM (if available)
+          lazyRegister: 'max' // Delay Polymer startup work until instance-time,
+        };
+
         window.QAIROESAPP.SplashMessagesInterval = setInterval(function() {
-          window.QAIROESAPP.LoaderText.innerHTML = window.QAIROESAPP.SplashMessages[window.QAIROESAPP.SplashMessagesIndex];
-          window.QAIROESAPP.SplashMessagesIndex++;
-          if (window.QAIROESAPP.SplashMessagesIndex >= window.QAIROESAPP.SplashMessages.length) {
-            window.QAIROESAPP.SplashMessagesIndex = 0;
+          if (window.QAIROESAPP.SplashText) {
+            window.QAIROESAPP.SplashText.innerHTML = window.QAIROESAPP.SplashMessages[window.QAIROESAPP.SplashMessagesIndex];
+            window.QAIROESAPP.SplashMessagesIndex++;
+            if (window.QAIROESAPP.SplashMessagesIndex >= window.QAIROESAPP.SplashMessages.length) {
+              window.QAIROESAPP.SplashMessagesIndex = 0;
+            }
           }
         }, 7000);
-        sendRavenMessages();
-      }, 6000);
-      
-      function loadMessage (param) {
-        window.QAIROESAPP.LoaderText = document.getElementById('loader-text');
-        window.QAIROESAPP.LoaderText.innerHTML = param;
-      }
-      
-      function sendRavenMessages() {
-        console.log('raven loaded')
-        while (window.RavenLoaderMessages.length > 0) {
-          if (window.Raven) {
-            var message = window.RavenLoaderMessages.pop();
-            Raven.captureMessage(message);
-          } else {
-            break;
-          }
-        }
-      }
-      
-      window.loadRaven = function() {
-        Raven.config('https://827acc4cd4d04b009157881a6939baac@sentry.io/123192').install();
-        setTimeout(sendRavenMessages, 10);
-      }
 
-    </script>
-    
-    <link rel="import" href="/core/qairoe-standard-polymer-app-app-shell.html" async>
-    <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js" async onload="window.loadRaven()"></script>
-  
-    <script>
-      // Setup Polymer options
-      // Based on https://youtu.be/Rd0plknSPYU?t=19m58s
-      // Making Chromsestatus.com a Lightning-fast PWA (Polymer Summit 2016)
-      window.Polymer = {
-        // Use native Shadow DOM (if available)
-        dom: 'shadow',
-        // Delay Polymer startup work until instance-time,
-        lazyRegister: 'max'
-      };
-      // Setup error tracking before anything else runs.
-      window.onerror = function (message, file, lineNumber, columnNumber, error) {
-        // We don't want to trigger any errors inside window.onerror, so wrap in a try/catch.
-        try {
-          // Some browsers don't support error param yet.
-          if (error !== undefined && error !== null) {
-            message = error.stack;
+        function sendRavenMessages() {
+          if (window.Raven) {
+            while (window.QAIROESAPP.RavenSplashMessages.length > 0) {
+              var message = window.RavenLoaderMessages.pop();
+              Raven.captureMessage(message);
+            }
           }
-          if (window.ga) {
-            ga('send', 'event', 'error', file + ':' + lineNumber, message);
-          }
-          
-          if (window.Raven && error) {
-            Raven.captureException(error);
-            // Raven.showReportDialog();
-          } else {
-            console.log(message)
-          }
-        } catch (e) {
-          console.error(e);
-          // no-op
         }
-      };
+
+        window.loadRaven = function() {
+
+          /** RAVEN CONFIG START HERE **/
+          Raven.config('https://827acc4cd4d04b009157881a6939baac@sentry.io/123192').install();
+          /** RAVEN CONFIG END HERE **/
+
+          setTimeout(sendRavenMessages, 10);
+        }
+
+        window.onerror = function (message, file, lineNumber, columnNumber, error) {
+        // We don't want to trigger any errors inside window.onerror, so wrap in a try/catch.
+          try {
+            // Some browsers don't support error param yet.
+            if (error !== undefined && error !== null) {
+              message = error.stack;
+            }
+            if (window.ga) {
+              ga('send', 'event', 'error', file + ':' + lineNumber, message);
+            }
+
+            if (window.Raven && error) {
+              Raven.captureException(error);
+              if (window.QAIROESAPP.version !== 'beta' && window.QAIROESAPP.version !== 'alpha') {
+                Raven.showReportDialog();
+              }
+            } else {
+              console.log(message);
+            }
+          } catch (e) {
+            console.error(e);
+            // no-op
+          }
+        };
+      }());
     </script>
+
+    <link rel="import" href="project-core.html" async>
+    <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js" async onload="window.loadRaven()"></script>
+
+    <!-- INDEX STYLE START HERE -->
+<style>
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  min-width: 100%; }
+
+#core-app {
+  min-width: 100%; }
+
+.splash-page {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5%;
+  margin-top: 140px; }
+  .splash-page.hidden {
+    display: none; }
+
+.loader {
+  position: relative;
+  margin: 0 auto;
+  width: 100px; }
+  .loader:before {
+    content: '';
+    display: block;
+    padding-top: 100%; }
+
+.circular {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; }
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round; }
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg); } }
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px; }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px; } }
+
+@keyframes color {
+  100%,
+  0% {
+    stroke: #d62d20; }
+  40% {
+    stroke: #0057e7; }
+  66% {
+    stroke: #008744; }
+  80%,
+  90% {
+    stroke: #ffa700; } }
+
+.splash-text {
+  text-align: center;
+  padding: 20px; }
+
+</style>
+<!-- INDEX STYLE END HERE -->
+
   </head>
   <body>
-    Hello World
+
+    <div class="showbox" id="showbox">
+    <!-- SPLASH PAGE START HERE -->
+    <!-- SPLASH PAGE END HERE -->
+    </div>
+
+    <project-core id="project-core"></project-core>
+
   </body>
 </html>
