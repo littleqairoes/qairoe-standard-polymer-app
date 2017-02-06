@@ -49,11 +49,12 @@
     <!-- =========================================================================================== -->
 
     <script>
-      window.QAIROESTANDARDPOLYMERAPP = window.QAIROESTANDARDPOLYMERAPP || {};
+      window.QAIROESAPP = window.QAIROESAPP || {};
       window.PREFIX = '/';
       
-      window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex = 2;
-      window.QAIROESTANDARDPOLYMERAPP.LoaderMessages = [
+      
+      window.QAIROESAPP.SplashMessagesIndex = 0;
+      window.QAIROESAPP.SplashMessages = [
         'Might be the network...',
         'If you are using Safari 9, you might need to update it to the latest version...',
         'If you are using a lower version of Firefox or Chrome, please update it above version 30...',
@@ -62,31 +63,26 @@
         'Please wait...',
         'Why is the network so slow today???'
       ]
-      window.RavenLoaderMessages = [];
+      window.RavenSplashMessages = [];
       
-      
-      window.QAIROESTANDARDPOLYMERAPP.LoaderTimerShort = setTimeout(loadMessage.bind(this, 'Might be the network...'), 6000);
-      window.QAIROESTANDARDPOLYMERAPP.LoaderTimerShorter = setTimeout(loadMessage.bind(this, 'Please wait...'), 14000);
-      window.QAIROESTANDARDPOLYMERAPP.LoaderTimerLong = setTimeout(loadMessage.bind(this, 'Really really slow network here'), 60000);
-      
-      window.QAIROESTANDARDPOLYMERAPP.LoaderTimer = setTimeout(function() {
+      window.QAIROESAPP.LoaderTimer = setTimeout(function() {
         console.log('Really slow network here')
-        RavenLoaderMessages.push('Really slow network here');
-        window.QAIROESTANDARDPOLYMERAPP.LoaderText.innerHTML = 'If you are using Safari 9, you might need to update it to the latest version...';
+        RavenSplashMessages.push('Really slow network here');
+        window.QAIROESAPP.LoaderText.innerHTML = 'If you are using Safari 9, you might need to update it to the latest version...';
         window.slowNetwork = new Date();
-        window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesInterval = setInterval(function() {
-          window.QAIROESTANDARDPOLYMERAPP.LoaderText.innerHTML = window.QAIROESTANDARDPOLYMERAPP.LoaderMessages[window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex];
-          window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex++;
-          if (window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex >= window.QAIROESTANDARDPOLYMERAPP.LoaderMessages.length) {
-            window.QAIROESTANDARDPOLYMERAPP.LoaderMessagesIndex = 0;
+        window.QAIROESAPP.SplashMessagesInterval = setInterval(function() {
+          window.QAIROESAPP.LoaderText.innerHTML = window.QAIROESAPP.SplashMessages[window.QAIROESAPP.SplashMessagesIndex];
+          window.QAIROESAPP.SplashMessagesIndex++;
+          if (window.QAIROESAPP.SplashMessagesIndex >= window.QAIROESAPP.SplashMessages.length) {
+            window.QAIROESAPP.SplashMessagesIndex = 0;
           }
         }, 7000);
         sendRavenMessages();
-      }, 20000);
+      }, 6000);
       
       function loadMessage (param) {
-        window.QAIROESTANDARDPOLYMERAPP.LoaderText = document.getElementById('loader-text');
-        window.QAIROESTANDARDPOLYMERAPP.LoaderText.innerHTML = param;
+        window.QAIROESAPP.LoaderText = document.getElementById('loader-text');
+        window.QAIROESAPP.LoaderText.innerHTML = param;
       }
       
       function sendRavenMessages() {
