@@ -1,6 +1,146 @@
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Index</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <!-- TITLE START -->
+    <title>Qairoe Standard Polymer App</title>
+    <!-- TITLE ENDS -->
+
+    <!-- DESCRIPTION START -->
+    <meta name="description" content="Alpha">
+    <!-- DESCRIPTION END -->
+
+    <link rel="icon" href="/images/favicon.ico">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- See https://goo.gl/qRE0vM -->
+    <meta name="theme-color" content="#3f51b5">
+
+    <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- CHROME TITLE STARTS -->
+    <meta name="application-name" content="Qairoe Standard Polymer App">
+    <!-- CHROME TITLE ENDS -->
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- IOS TITLE STARTS -->
+    <meta name="apple-mobile-web-app-title" content="Qairoe Standard Polymer App">
+    <!-- IOS TITLE ENDS -->
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="/images/manifest/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/manifest/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="/images/manifest/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/manifest/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/images/manifest/icon-192x192.png">
+
+    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="/images/manifest/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#3f51b5">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- =========================================================================================== -->
+    <!-- =========================================================================================== -->
+
+    <script>
+      window.QAIROESAPP = window.QAIROESAPP || {};
+      window.PREFIX = '/';
+      
+      
+      window.QAIROESAPP.SplashMessagesIndex = 0;
+      window.QAIROESAPP.SplashMessages = [
+        'Might be the network...',
+        'If you are using Safari 9, you might need to update it to the latest version...',
+        'If you are using a lower version of Firefox or Chrome, please update it above version 30...',
+        'Nuninuninuninu...',
+        'We haven\'t tested this yet on IE 8... so, give us as a holler if you see this (and you are on IE 10 below)...',
+        'Please wait...',
+        'Why is the network so slow today???'
+      ]
+      window.RavenSplashMessages = [];
+      
+      window.QAIROESAPP.LoaderTimer = setTimeout(function() {
+        console.log('Really slow network here')
+        RavenSplashMessages.push('Really slow network here');
+        window.QAIROESAPP.LoaderText.innerHTML = 'If you are using Safari 9, you might need to update it to the latest version...';
+        window.slowNetwork = new Date();
+        window.QAIROESAPP.SplashMessagesInterval = setInterval(function() {
+          window.QAIROESAPP.LoaderText.innerHTML = window.QAIROESAPP.SplashMessages[window.QAIROESAPP.SplashMessagesIndex];
+          window.QAIROESAPP.SplashMessagesIndex++;
+          if (window.QAIROESAPP.SplashMessagesIndex >= window.QAIROESAPP.SplashMessages.length) {
+            window.QAIROESAPP.SplashMessagesIndex = 0;
+          }
+        }, 7000);
+        sendRavenMessages();
+      }, 6000);
+      
+      function loadMessage (param) {
+        window.QAIROESAPP.LoaderText = document.getElementById('loader-text');
+        window.QAIROESAPP.LoaderText.innerHTML = param;
+      }
+      
+      function sendRavenMessages() {
+        console.log('raven loaded')
+        while (window.RavenLoaderMessages.length > 0) {
+          if (window.Raven) {
+            var message = window.RavenLoaderMessages.pop();
+            Raven.captureMessage(message);
+          } else {
+            break;
+          }
+        }
+      }
+      
+      window.loadRaven = function() {
+        Raven.config('https://827acc4cd4d04b009157881a6939baac@sentry.io/123192').install();
+        setTimeout(sendRavenMessages, 10);
+      }
+
+    </script>
+    
+    <link rel="import" href="/core/qairoe-standard-polymer-app-app-shell.html" async>
+    <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js" async onload="window.loadRaven()"></script>
+  
+    <script>
+      // Setup Polymer options
+      // Based on https://youtu.be/Rd0plknSPYU?t=19m58s
+      // Making Chromsestatus.com a Lightning-fast PWA (Polymer Summit 2016)
+      window.Polymer = {
+        // Use native Shadow DOM (if available)
+        dom: 'shadow',
+        // Delay Polymer startup work until instance-time,
+        lazyRegister: 'max'
+      };
+      // Setup error tracking before anything else runs.
+      window.onerror = function (message, file, lineNumber, columnNumber, error) {
+        // We don't want to trigger any errors inside window.onerror, so wrap in a try/catch.
+        try {
+          // Some browsers don't support error param yet.
+          if (error !== undefined && error !== null) {
+            message = error.stack;
+          }
+          if (window.ga) {
+            ga('send', 'event', 'error', file + ':' + lineNumber, message);
+          }
+          
+          if (window.Raven && error) {
+            Raven.captureException(error);
+            // Raven.showReportDialog();
+          } else {
+            console.log(message)
+          }
+        } catch (e) {
+          console.error(e);
+          // no-op
+        }
+      };
+    </script>
   </head>
   <body>
     Hello World
